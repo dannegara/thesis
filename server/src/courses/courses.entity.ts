@@ -1,5 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  BaseEntity,
+  OneToMany,
+} from "typeorm";
 import { UsersEntity } from '../users/users.entity';
+import { LectureEntity } from '../lectures/lectures.entity';
 
 enum Statuses {
   AVAILABLE = 'AVAILABLE'
@@ -16,15 +26,18 @@ export class CourseEntity extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ default: Statuses.AVAILABLE })
   status: Statuses
+
+  @OneToMany(() => LectureEntity, lectures => lectures.course)
+  lectures: LectureEntity[];
 
   @ManyToOne(() => UsersEntity, user => user.courses)
   author: UsersEntity
 
   @CreateDateColumn()
-  created_at: Date
+  createdAt: Date
 
   @UpdateDateColumn()
-  updated_at: Date
+  updatedAt: Date
 }

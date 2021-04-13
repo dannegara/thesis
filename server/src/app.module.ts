@@ -5,12 +5,14 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { CoursesModule } from './courses/courses.module';
+import { LecturesModule } from './lectures/lectures.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     CoursesModule,
+    LecturesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
