@@ -1,0 +1,81 @@
+Class diagram: https://online.visual-paradigm.com/app/diagrams/#diagram:proj=0&type=ClassDiagram
+ER diagrams: https://dbdiagram.io/d
+Use Case diagram: https://cloud.smartdraw.com/editor.aspx?templateId=3612e341-8334-4cf6-8907-fe1702b9a150&flags=128#depoId=25840162&credID=-34174343
+Schema Code:
+Enum user_role {
+  student
+  teacher
+}
+
+Enum course_status {
+  enabled
+  disabled
+}
+
+Table users as U {
+  id int [pk, increment]
+  firstname varchar
+  lastname varchar
+  email varchar
+  password varchar
+  role user_role
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table courses as C {
+  id int [pk, increment]
+  name varchar
+  description text
+  status course_status
+  admin_id int [ref: > U.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table courses_students as CS {
+  student_id int [ref: > U.id]
+  course_id int [ref: > C.id]
+}
+
+Table lectures as L {
+  id int [pk, increment]
+  name varchar
+  description text
+  file_url varchar
+  course_id int [ref: > C.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table tests as T {
+  id int [pk, increment]
+  name varchar
+  course_id int [ref: > C.id]
+  date_start timestamp
+  date_finish timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table students_tests as ST {
+  id int [pk, increment]
+  student_id int [ref: > U.id]
+  test_id int [ref: > T.id]
+  grade int
+}
+
+Table test_questions as TQ {
+  id int [pk, increment]
+  question varchar
+  test_id int [ref: > T.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table student_answers as SA {
+  id int [pk, increment]
+  student_test_id int [ref: > ST.id]
+  test_question_id int [ref: > TQ.id]
+  answer varchar
+}
