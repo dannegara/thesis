@@ -8,6 +8,7 @@ function ResponseHeadersMiddleware(req: Request, res: Response, next: Function) 
   next();
 }
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 

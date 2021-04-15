@@ -1,5 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, OneToMany, BaseEntity } from "typeorm";
-import { CourseEntity } from '../courses/courses.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  UpdateDateColumn,
+  CreateDateColumn,
+  BaseEntity,
+  OneToOne
+} from "typeorm";
+import { TeachersEntity } from '../teachers/teachers.entity';
+import { StudentsEntity } from '../students/students.entity';
 
 enum Roles {
   TEACHER = 'TEACHER',
@@ -27,11 +36,14 @@ export class UsersEntity extends BaseEntity {
   role: Roles;
 
   @CreateDateColumn()
-  created_at: Date
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date
+  updatedAt: Date;
 
-  @OneToMany(() => CourseEntity, course => course.author)
-  courses: CourseEntity[]
+  @OneToOne(() => TeachersEntity)
+  teacher: TeachersEntity;
+
+  @OneToOne(() => StudentsEntity)
+  student: StudentsEntity;
 }

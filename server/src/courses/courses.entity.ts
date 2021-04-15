@@ -4,12 +4,16 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   BaseEntity,
   OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinColumn,
+  JoinTable,
 } from "typeorm";
-import { UsersEntity } from '../users/users.entity';
 import { LectureEntity } from '../lectures/lectures.entity';
+import { TeachersEntity } from '../teachers/teachers.entity';
+import { StudentsEntity } from '../students/students.entity';
 
 enum Statuses {
   AVAILABLE = 'AVAILABLE'
@@ -32,8 +36,12 @@ export class CourseEntity extends BaseEntity {
   @OneToMany(() => LectureEntity, lectures => lectures.course)
   lectures: LectureEntity[];
 
-  @ManyToOne(() => UsersEntity, user => user.courses)
-  author: UsersEntity
+  @ManyToOne(() => TeachersEntity, teacher => teacher.courses)
+  teacher: TeachersEntity;
+
+  @ManyToMany(() => StudentsEntity, student => student.courses)
+  @JoinTable({ name: 'students_courses' })
+  students: StudentsEntity[];
 
   @CreateDateColumn()
   createdAt: Date

@@ -14,7 +14,16 @@ export class CoursesController {
   constructor(public service: CoursesService) {}
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return CourseEntity.findOneOrFail(id, { relations: ['lectures' ]});
+  async findOne(@Param('id') id: number): Promise<any> {
+    return CourseEntity.findOneOrFail(id, {
+      relations: ['lectures'],
+      join: {
+        alias: 'courses',
+        leftJoinAndSelect: {
+          'students': 'courses.students',
+          'user': 'students.user'
+        }
+      }
+    })
   }
 }

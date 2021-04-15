@@ -9,7 +9,7 @@ import {
   ArrayField,
 } from 'react-admin';
 import { COURSE_SOURCES, LECTURES_SOURCES } from '../../../constants/sources';
-import { LECTURE_ENTITY } from '../../../constants/entities';
+import { LECTURE_ENTITY, STUDENT_ENTITY } from '../../../constants/entities';
 
 const CoursesShow = (props) => {
   return (
@@ -28,7 +28,12 @@ const CoursesShow = (props) => {
           </ArrayField>
         </Tab>
         <Tab label="students">
-          <h1>Students</h1>
+          <ArrayField source={STUDENT_ENTITY}>
+            <Datagrid>
+              <TextField source="user.firstname" label="Firstname" />
+              <TextField source="user.lastname" label="Lastname" />
+            </Datagrid>
+          </ArrayField>
         </Tab>
       </TabbedShowLayout>
     </Show>
