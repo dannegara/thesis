@@ -14,6 +14,7 @@ import {
 import { LectureEntity } from '../lectures/lectures.entity';
 import { TeachersEntity } from '../teachers/teachers.entity';
 import { StudentsEntity } from '../students/students.entity';
+import { TestEntity } from '../tests/tests.entity';
 
 enum Statuses {
   AVAILABLE = 'AVAILABLE'
@@ -35,6 +36,9 @@ export class CourseEntity extends BaseEntity {
 
   @OneToMany(() => LectureEntity, lectures => lectures.course)
   lectures: LectureEntity[];
+
+  @OneToMany(() => TestEntity, test => test.course)
+  tests: TestEntity[];
 
   @ManyToOne(() => TeachersEntity, teacher => teacher.courses)
   teacher: TeachersEntity;

@@ -15,3 +15,12 @@ export const COURSE_SOURCES = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 };
+
+export const TEST_SOURCE = {
+  id: 'id',
+  dateFinish: 'dateFinish',
+  dateStart: 'dateStart',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+};

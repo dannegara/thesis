@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
 import { LecturesModule } from './lectures/lectures.module';
+import { TestsModules } from './tests/tests.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { LecturesModule } from './lectures/lectures.module';
     AuthModule,
     CoursesModule,
     LecturesModule,
+    TestsModules,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

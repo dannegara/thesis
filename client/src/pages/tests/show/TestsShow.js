@@ -7,16 +7,15 @@ import {
   Tab,
   Datagrid,
   ArrayField,
-  CreateButton,
-  EditButton
 } from 'react-admin';
 import { COURSE_SOURCES, LECTURES_SOURCES } from '../../../constants/sources';
 import { LECTURE_ENTITY, STUDENT_ENTITY } from '../../../constants/entities';
 
-const CoursesShow = (props) => {
+const TestsShow = (props) => {
   return (
     <Show {...props}>
-      <TabbedShowLayout>
+      <TextField source="name" />
+      {/* <TabbedShowLayout>
         <Tab label="info">
           <TextField source={COURSE_SOURCES.name} />
           <RichTextField source={COURSE_SOURCES.description} />
@@ -26,7 +25,6 @@ const CoursesShow = (props) => {
             <Datagrid>
               <TextField source={LECTURES_SOURCES.name} />
               <RichTextField source={LECTURES_SOURCES.description} />
-              <EditButton basePath="/lectures" />
             </Datagrid>
           </ArrayField>
         </Tab>
@@ -38,9 +36,9 @@ const CoursesShow = (props) => {
             </Datagrid>
           </ArrayField>
         </Tab>
-      </TabbedShowLayout>
+      </TabbedShowLayout> */}
     </Show>
   )
 }
 
-export default CoursesShow;
+export default TestsShow;
