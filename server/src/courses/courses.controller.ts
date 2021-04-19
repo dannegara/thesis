@@ -1,8 +1,18 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body
+} from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 
 import { CourseEntity } from './courses.entity';
 import { CoursesService } from './courses.service';
+
+class InviteStudentDTO {
+  studentEmail: string;
+}
 
 @Crud({
   model: {
@@ -25,5 +35,13 @@ export class CoursesController {
         }
       }
     })
+  }
+
+  @Post(':id/student')
+  async inviteStudent(
+    @Param('id') id: number,
+    @Body() inviteStudentDTO: InviteStudentDTO
+  ): Promise<any> {
+    return this.service.inviteStudent(id, inviteStudentDTO.studentEmail);
   }
 }

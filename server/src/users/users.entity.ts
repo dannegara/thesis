@@ -10,7 +10,7 @@ import {
 import { TeachersEntity } from '../teachers/teachers.entity';
 import { StudentsEntity } from '../students/students.entity';
 
-enum Roles {
+export enum Roles {
   TEACHER = 'TEACHER',
   STUDENT = 'STUDENT'
 }
@@ -20,10 +20,10 @@ export class UsersEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: 'nofirstname' })
   firstname: string;
 
-  @Column()
+  @Column({ default: 'nolastname' })
   lastname: string;
 
   @Column()

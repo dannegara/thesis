@@ -1,3 +1,4 @@
+Mail Mocking: https://mailtrap.io/inboxes/1294132/messages/2164400484
 Class diagram: https://online.visual-paradigm.com/app/diagrams/#diagram:proj=0&type=ClassDiagram
 ER diagrams: https://dbdiagram.io/d
 Use Case diagram: https://cloud.smartdraw.com/editor.aspx?templateId=3612e341-8334-4cf6-8907-fe1702b9a150&flags=128#depoId=25840162&credID=-34174343
