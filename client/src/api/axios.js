@@ -4,7 +4,7 @@ import { TOKEN } from '../constants/storage';
 
 const instance = axios.create({
   baseURL: `${BASE_URL}/` ,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
   }

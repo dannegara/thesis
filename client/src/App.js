@@ -15,6 +15,7 @@ import {
 import { LecturesCreate } from "./pages/lectures";
 import { ProfileEdit } from './pages/profile';
 import Calendar from './pages/calendar';
+import MyLayout from './components/layout';
 import { authProvider, dataProvider } from './providers';
 import {
   COURSE_ENTITY,
@@ -24,10 +25,13 @@ import {
   CALENDAR_ENTITY,
 } from './constants/entities';
 
-const adminProps = { authProvider, dataProvider };
+const adminProps = {
+  authProvider,
+  dataProvider,
+};
 
 const App = () => (
-  <Admin {...adminProps}>
+  <Admin {...adminProps} layout={MyLayout}>
     <Resource
       name={COURSE_ENTITY}
       list={CoursesList}
