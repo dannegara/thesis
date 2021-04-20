@@ -18,8 +18,10 @@ export class CoursesService extends TypeOrmCrudService<CourseEntity> {
   public async inviteStudent(courseId: number, studentEmail: string) {
     const course = await CourseEntity.findOneOrFail(courseId)
     const student = await StudentsEntity.findOne({
-      user: {
-        email: studentEmail
+      where: {
+        user: {
+          email: studentEmail
+        }
       }
     })
     const foundStudent: StudentsEntity = student || await this.studentsService.createStudent(studentEmail);

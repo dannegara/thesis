@@ -32,7 +32,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     top: `${50}%`,
     left: `${50}%`,
-    transform: `translate(-${50}%, -${50}%)`
+    transform: `translate(-${50}%, -${50}%)`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  btn: {
+    marginTop: 16,
   },
 }));
 
@@ -78,7 +84,13 @@ const CoursesShow = (props) => {
           />
         )}
       />
-      <Button onClick={inviteStudentHandler} variant="outlined">Invite Student</Button>
+      <Button
+        className={classes.btn}
+        onClick={inviteStudentHandler}
+        variant="outlined"
+      >
+        Invite Student
+      </Button>
     </div>
   );
 
