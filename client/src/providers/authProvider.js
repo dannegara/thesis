@@ -1,6 +1,12 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK } from 'react-admin';
+import {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_ERROR,
+  AUTH_CHECK,
+  AUTH_GET_PERMISSIONS,
+} from 'react-admin';
 import { login } from '../api/auth';
-import { TOKEN } from '../constants/storage';
+import { TOKEN, ROLE } from '../constants/storage';
 
 const authProvider = async (type, params) => {
 
@@ -8,9 +14,10 @@ const authProvider = async (type, params) => {
     const { username, password } = params;
   
     try {
-      const { data: { access_token } } = await login(username, password);
+      const { data: { access_token, role } } = await login(username, password);
 
       localStorage.setItem(TOKEN, access_token);
+      localStorage.setItem(ROLE, role);
 
       return Promise.resolve();
     } catch (error) {
@@ -41,6 +48,12 @@ const authProvider = async (type, params) => {
     }
     
     return Promise.resolve();
+  }
+
+  if(type === AUTH_GET_PERMISSIONS) {
+    const role = localStorage.getItem(ROLE);
+
+    return role ? Promise.resolve(role) : Promise.reject();
   }
 
   return Promise.resolve();

@@ -17,6 +17,7 @@ export class AuthService {
   login(user: UsersEntity) {
     return {
       access_token: this.jwtService.sign({ email: user.email, id: user.id }),
+      role: user.role,
     };
   }
 }

@@ -24,6 +24,7 @@ import {
   LECTURE_ENTITY,
   CALENDAR_ENTITY,
 } from './constants/entities';
+import { ROLES } from './constants/enums';
 
 const adminProps = {
   authProvider,
@@ -32,32 +33,34 @@ const adminProps = {
 
 const App = () => (
   <Admin {...adminProps} layout={MyLayout}>
-    <Resource
-      name={COURSE_ENTITY}
-      list={CoursesList}
-      create={CoursesCreate}
-      show={CoursesShow}
-      edit={CoursesEdit}
-    />
-    <Resource 
-      name={TEST_ENTITY}
-      list={TestsList}
-      create={TestsCreate}
-      show={TestsShow}
-      edit={TestsEdit}
-    />
-    <Resource 
-      name={CALENDAR_ENTITY}
-      list={Calendar}
-    />
-    <Resource 
-      name={LECTURE_ENTITY}
-      create={LecturesCreate}
-    />
-    <Resource 
-      name={PROFILE_ENTITY}
-      edit={ProfileEdit}
-    />
+    {permissions => [
+      <Resource
+        name={COURSE_ENTITY}
+        list={CoursesList}
+        show={CoursesShow}
+        create={permissions === ROLES.TEACHER ? CoursesCreate : null}
+        edit={permissions === ROLES.TEACHER ? CoursesEdit : null}
+      />,
+      <Resource 
+        name={TEST_ENTITY}
+        list={TestsList}
+        show={TestsShow}
+        create={permissions === ROLES.TEACHER ? TestsCreate : null}
+        edit={permissions === ROLES.TEACHER ? TestsEdit : null}
+      />,
+      <Resource 
+        name={CALENDAR_ENTITY}
+        list={Calendar}
+      />,
+      <Resource 
+        name={LECTURE_ENTITY}
+        create={permissions === ROLES.TEACHER ? LecturesCreate : null}
+      />,
+      <Resource 
+        name={PROFILE_ENTITY}
+        edit={ProfileEdit}
+      />,
+    ]}
   </Admin>
 );
 
