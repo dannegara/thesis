@@ -13,18 +13,17 @@ import {
   TestsEdit
 } from './pages/tests';
 import { LecturesCreate } from "./pages/lectures";
-import { ProfileEdit } from './pages/profile';
 import Calendar from './pages/calendar';
 import MyLayout from './components/layout';
 import { authProvider, dataProvider } from './providers';
 import {
   COURSE_ENTITY,
   TEST_ENTITY,
-  PROFILE_ENTITY,
   LECTURE_ENTITY,
   CALENDAR_ENTITY,
 } from './constants/entities';
 import { ROLES } from './constants/enums';
+import customRoutes from './routes';
 
 const adminProps = {
   authProvider,
@@ -32,7 +31,7 @@ const adminProps = {
 };
 
 const App = () => (
-  <Admin {...adminProps} layout={MyLayout}>
+  <Admin {...adminProps} customRoutes={customRoutes} layout={MyLayout}>
     {permissions => [
       <Resource
         name={COURSE_ENTITY}
@@ -55,10 +54,6 @@ const App = () => (
       <Resource 
         name={LECTURE_ENTITY}
         create={permissions === ROLES.TEACHER ? LecturesCreate : null}
-      />,
-      <Resource 
-        name={PROFILE_ENTITY}
-        edit={ProfileEdit}
       />,
     ]}
   </Admin>

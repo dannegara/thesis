@@ -1,17 +1,20 @@
-import React from 'react';
-import { Edit, TextInput, SimpleForm  } from 'react-admin';
-import RichTextInput from 'ra-input-rich-text';
-import { COURSE_SOURCES } from '../../../constants/sources';
+import React, { useEffect } from 'react';
+import { getProfile } from '../../../api/auth';
 
-const ProfileEdit = (props) => {
+const ProfileEdit = () => {
+
+  const getProfileHandler = async () => {
+    const { data } = await getProfile();
+
+    console.log(data);
+  }
+
+  useEffect(() => {
+    getProfileHandler();
+  }, []);
+
   return (
-    <Edit {...props}>
-      <SimpleForm>
-        {/* <TextInput source={COURSE_SOURCES.name} />
-        <RichTextInput source={COURSE_SOURCES.description} /> */}
-        <TextInput source="name" />
-      </SimpleForm>
-    </Edit>  
+    <div>Profile edit</div>
   )
 }
 

@@ -34,6 +34,7 @@ const authProvider = async (type, params) => {
 
   if (type === AUTH_LOGOUT) {
     localStorage.removeItem(TOKEN);
+    localStorage.removeItem(ROLE);
 
     return Promise.resolve();
   }
