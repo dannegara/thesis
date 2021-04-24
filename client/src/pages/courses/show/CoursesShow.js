@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Show,
   TextField,
@@ -19,6 +19,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button'
 import { COURSE_SOURCES, LECTURES_SOURCES } from '../../../constants/sources';
 import { LECTURE_ENTITY, STUDENT_ENTITY } from '../../../constants/entities';
+import { ROLES } from '../../../constants/enums';
 import { getStudents } from '../../../api/students';
 import { inviteStudentToCourse } from '../../../api/courses';
 
@@ -42,11 +43,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CoursesShow = (props) => {
+const CoursesShow = ({ permissions, ...props }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState([]);
   const [student, setStudent] = useState('');
+  const isTeacher = useMemo(() => permissions === ROLES.TEACHER, [permissions]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -106,28 +108,30 @@ const CoursesShow = (props) => {
             <Datagrid>
               <TextField source={LECTURES_SOURCES.name} />
               <RichTextField source={LECTURES_SOURCES.description} />
-              <EditButton basePath="/lectures" />
+              {isTeacher && <EditButton basePath="/lectures" />}
             </Datagrid>
           </ArrayField>
         </Tab>
-        <Tab label="students">
-          <Button onClick={handleOpen} variant="outlined">Invite Student</Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            {body}
-          </Modal>
-          <ArrayField source={STUDENT_ENTITY}>
-            <Datagrid>
-              <TextField source="user.firstname" label="Firstname" />
-              <TextField source="user.lastname" label="Lastname" />
-              <TextField source="user.email" label="Email" />
-            </Datagrid>
-          </ArrayField>
-        </Tab>
+        {isTeacher && (
+          <Tab label="students">
+            <Button onClick={handleOpen} variant="outlined">Invite Student</Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+              {body}
+            </Modal>
+            <ArrayField source={STUDENT_ENTITY}>
+              <Datagrid>
+                <TextField source="user.firstname" label="Firstname" />
+                <TextField source="user.lastname" label="Lastname" />
+                <TextField source="user.email" label="Email" />
+              </Datagrid>
+            </ArrayField>
+          </Tab>
+        )}
       </TabbedShowLayout>
     </Show>
   )

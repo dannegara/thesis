@@ -3,12 +3,19 @@ import {
   Get,
   Param,
   Post,
-  Body
+  Body,
+  UseGuards,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CourseEntity } from './courses.entity';
 import { CoursesService } from './courses.service';
+import { User } from '../users/users.decorator';
+import { UsersEntity, Roles  } from '../users/users.entity';
+import { TeachersEntity } from '../teachers/teachers.entity';
+import { StudentsEntity } from '../students/students.entity';
 
 class InviteStudentDTO {
   studentEmail: string;
@@ -23,6 +30,51 @@ class InviteStudentDTO {
 export class CoursesController {
   constructor(public service: CoursesService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getAll(@User() user: UsersEntity) {
+    if (user.role === Roles.TEACHER) {
+      const teacher = await TeachersEntity.findOneOrFail(null, {
+        where: {
+          user
+        }
+      });
+      return CourseEntity.find({ where: { teacher } });
+    }
+
+    if(user.role = Roles.STUDENT) {
+      const student = await StudentsEntity.findOneOrFail(null, {
+        where: {
+          user
+        },
+        join: {
+          alias: 'students',
+          leftJoinAndSelect: {
+            'courses': 'students.courses',
+          }
+        }
+      });
+
+      return student.courses;
+    }
+
+    throw new UnauthorizedException('Invalid ROLE');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async post(@User() user: UsersEntity, @Body() body) {
+    const teacher = await TeachersEntity.findOneOrFail(user.id);
+
+    const course = new CourseEntity();
+
+    course.name = body.name;
+    course.description = body.description;
+    course.teacher = teacher;
+
+    return course.save();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<any> {
     return CourseEntity.findOneOrFail(id, {
@@ -34,7 +86,7 @@ export class CoursesController {
           'user': 'students.user'
         }
       }
-    })
+    });
   }
 
   @Post(':id/student')
