@@ -24,18 +24,28 @@ Table users as U {
   updated_at timestamp
 }
 
+Table teachers as TE {
+  id int [pk, increment]
+  user_id int [ref: - U.id]
+}
+
+Table students as S {
+  id int [pk, increment]
+  user_id int [ref: - U.id]
+}
+
 Table courses as C {
   id int [pk, increment]
   name varchar
   description text
   status course_status
-  admin_id int [ref: > U.id]
+  admin_id int [ref: > TE.id]
   created_at timestamp
   updated_at timestamp
 }
 
 Table courses_students as CS {
-  student_id int [ref: > U.id]
+  student_id int [ref: > S.id]
   course_id int [ref: > C.id]
 }
 
@@ -61,7 +71,7 @@ Table tests as T {
 
 Table students_tests as ST {
   id int [pk, increment]
-  student_id int [ref: > U.id]
+  student_id int [ref: > S.id]
   test_id int [ref: > T.id]
   grade int
 }

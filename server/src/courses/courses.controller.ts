@@ -64,6 +64,8 @@ export class CoursesController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async post(@User() user: UsersEntity, @Body() body) {
+    console.log(user);
+    console.log(body);
     const teacher = await TeachersEntity.findOneOrFail(user.id);
 
     const course = new CourseEntity();
