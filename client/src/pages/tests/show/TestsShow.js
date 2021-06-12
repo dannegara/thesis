@@ -14,29 +14,24 @@ import { LECTURE_ENTITY, STUDENT_ENTITY } from '../../../constants/entities';
 const TestsShow = (props) => {
   return (
     <Show {...props}>
-      <TextField source="name" />
-      {/* <TabbedShowLayout>
-        <Tab label="info">
-          <TextField source={COURSE_SOURCES.name} />
-          <RichTextField source={COURSE_SOURCES.description} />
+      <TabbedShowLayout>
+        <Tab label="Test info">
+          <TextField source="name" label="Course name" />
+          <TextField source="dateStart" label="Start Date" />
+          <TextField source="dateFinish" label="Finish Date" />
         </Tab>
-        <Tab label="lectures">
-          <ArrayField source={LECTURE_ENTITY}>
+        <Tab label="Questions">
+          <ArrayField source="questions">
             <Datagrid>
-              <TextField source={LECTURES_SOURCES.name} />
-              <RichTextField source={LECTURES_SOURCES.description} />
+              <TextField source="question" />
             </Datagrid>
           </ArrayField>
         </Tab>
-        <Tab label="students">
-          <ArrayField source={STUDENT_ENTITY}>
-            <Datagrid>
-              <TextField source="user.firstname" label="Firstname" />
-              <TextField source="user.lastname" label="Lastname" />
-            </Datagrid>
-          </ArrayField>
+        <Tab label="Course">
+          <TextField source="course.name" label="Course name" />
+          <RichTextField source="course.description" label="Course description" />
         </Tab>
-      </TabbedShowLayout> */}
+      </TabbedShowLayout>
     </Show>
   )
 }

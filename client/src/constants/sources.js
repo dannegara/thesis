@@ -21,6 +21,11 @@ export const TEST_SOURCE = {
   dateFinish: 'dateFinish',
   dateStart: 'dateStart',
   name: 'name',
+  questions: 'questions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+};
+
+export const QUESTION_SOURCE = {
+  question: 'question',
 };
