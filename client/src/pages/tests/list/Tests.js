@@ -9,8 +9,9 @@ import {
 } from 'react-admin';
 import { ListFilters } from '../../../components/filters';
 import { TEST_SOURCE } from '../../../constants/sources';
+import { ROLES } from '../../../constants/enums';
 
-const TestsList = (props) => {
+const TestsList = ({ permissions, ...props }) => {
   return (
     <List pagination={false} {...props} filters={<ListFilters />}>
       <Datagrid>
@@ -21,7 +22,7 @@ const TestsList = (props) => {
         <DateField source={TEST_SOURCE.createdAt} />
         <DateField source={TEST_SOURCE.updatedAt} />
         <ShowButton />
-        <EditButton />
+        {permissions === ROLES.TEACHER && <EditButton />}
       </Datagrid>
     </List>
   )

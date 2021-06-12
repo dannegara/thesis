@@ -1,10 +1,15 @@
-import { Controller, Get, Param, Post, Body, Put } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Put, UseGuards, UnauthorizedException } from "@nestjs/common";
 import { Crud, CrudController } from "@nestjsx/crud";
 import { TestEntity } from './tests.entity';
 import { TestsService } from './tests.service';
 import { TestQuestionDTO } from '../testQuestions/testQuestions.service';
 import { CourseEntity } from '../courses/courses.entity';
 import { TestQuestionService } from '../testQuestions/testQuestions.service';
+import { UsersEntity, Roles  } from '../users/users.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../users/users.decorator';
+import { TeachersEntity } from "src/teachers/teachers.entity";
+import { StudentsEntity } from "src/students/students.entity";
 
 interface TestDTO {
   course: number;
@@ -21,6 +26,41 @@ export class TestsController implements CrudController<TestEntity> {
     public service: TestsService,
     public testQuestionService: TestQuestionService
   ) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getAll(@User() user: UsersEntity) {
+    console.log(user);
+    if(user.role === Roles.TEACHER) {
+      const teacher = await TeachersEntity.findOneOrFail(null, {
+        where: {
+          user
+        }
+      });
+      const courses = await CourseEntity.find({ where: { teacher }, relations: ['tests'] });
+
+      return courses.reduce((acc, course) => [...acc, ...course.tests], []);
+    }
+
+    if(user.role === Roles.STUDENT) {
+      const student = await StudentsEntity.findOneOrFail(null, {
+        where: {
+          user
+        },
+        join: {
+          alias: 'students',
+          leftJoinAndSelect: {
+            'courses': 'students.courses',
+            'tests': 'courses.tests'
+          }
+        }
+      });
+
+      return student.courses.reduce((acc, course) => [...acc, ...course.tests], []);
+    }
+
+    throw new UnauthorizedException('Invalid role');
+  }
 
   @Post()
   async create(@Body() body: TestDTO) {
