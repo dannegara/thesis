@@ -7,11 +7,25 @@ import {
   Tab,
   Datagrid,
   ArrayField,
+  useShowController
 } from 'react-admin';
-import { COURSE_SOURCES, LECTURES_SOURCES } from '../../../constants/sources';
-import { LECTURE_ENTITY, STUDENT_ENTITY } from '../../../constants/entities';
+import { ROLES } from '../../../constants/enums';
 
-const TestsShow = (props) => {
+const TestsShow = ({ permissions, ...props }) => {
+  const { record: { dateStart, dateFinish } } = useShowController(props);
+  const now = new Date().getTime();
+  const testStartDate = new Date(dateStart).getTime();
+  const testFinishDate = new Date(dateFinish).getTime();
+  const isStudent = permissions === ROLES.STUDENT;
+
+  if (isStudent && now > testFinishDate) {
+    return <h1>Test Already Finished</h1>;
+  }
+
+  if(isStudent && now < testStartDate) {
+    return <h1>Test Hasn't started yet</h1>
+  }
+  
   return (
     <Show {...props}>
       <TabbedShowLayout>

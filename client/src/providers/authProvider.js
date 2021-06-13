@@ -21,7 +21,6 @@ const authProvider = async (type, params) => {
 
       return Promise.resolve();
     } catch (error) {
-      console.log(error);
       return Promise.reject();
     }
   }

@@ -30,7 +30,6 @@ export class TestsController implements CrudController<TestEntity> {
   @UseGuards(JwtAuthGuard)
   @Get()
   async getAll(@User() user: UsersEntity) {
-    console.log(user);
     if(user.role === Roles.TEACHER) {
       const teacher = await TeachersEntity.findOneOrFail(null, {
         where: {
